@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آسمان پر ستاره با شمارنده معکوس</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #000033;
+            color: white;
+        }
+        #stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        #moon {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #FFFAE6;
+            box-shadow: 0 0 20px #FFFAE6;
+            animation: glow 4s infinite alternate;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px #FFFAE6; }
+            100% { box-shadow: 0 0 40px #FFFAE6; }
+        }
+        #content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #off-text {
+            font-size: 72px;
+            font-weight: bold;
+            text-shadow: 0 0 10px white;
+            animation: textGlow 2s infinite alternate;
+        }
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px white; }
+            100% { text-shadow: 0 0 20px white, 0 0 30px white; }
+        }
+        #countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="moon"></div>
+    <div id="content">
+        <div id="off-text">OFF</div>
+        <div id="countdown"></div>
+    </div>
+
+    <script>
+        // ایجاد ستاره‌ها
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${0.5 + Math.random() * 1.5}s`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // تابع شمارنده معکوس
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 10); // 10 روز از حالا
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                `${days} روز، ${hours} ساعت، ${minutes} دقیقه، ${seconds} ثانیه`;
+        }
+
+        // راه‌اندازی
+        createStars();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
